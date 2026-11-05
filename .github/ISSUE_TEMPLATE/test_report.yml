@@ -1,0 +1,23 @@
+name: Test report
+description: Tell us what you tried on your keyboard, even if it all worked
+labels: [test-report]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues are public. Please don't include your name, email, or file paths that contain your username.
+  - type: textarea
+    id: results
+    attributes:
+      label: What did you test?
+      description: Case IDs from docs/TESTING.md are handy, but a plain description is fine.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostic info
+      description: On the Home page, press Copy diagnostic info and paste it here.
+      render: text
+    validations:
+      required: true

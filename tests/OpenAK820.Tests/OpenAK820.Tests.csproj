@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <NoWarn>$(NoWarn);CA1416;WFO5001</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenAK820.Core\OpenAK820.Core.csproj" />
+    <ProjectReference Include="..\..\src\OpenAK820\OpenAK820.csproj" />
+  </ItemGroup>
+</Project>

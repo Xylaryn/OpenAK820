@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);WFO1000;WFO5001;WFO5002;CA1416;WFDEV005;WFAC010</NoWarn>
+    <AssemblyTitle>OpenAK820</AssemblyTitle>
+    <Product>OpenAK820</Product>
+    <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenAK820.Core\OpenAK820.Core.csproj" />
+    <EmbeddedResource Include="app.ico" LogicalName="app.ico" />
+  </ItemGroup>
+</Project>

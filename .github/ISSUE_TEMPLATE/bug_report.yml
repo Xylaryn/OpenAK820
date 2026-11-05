@@ -1,0 +1,38 @@
+name: Bug report
+description: Something doesn't work, or your keyboard isn't found
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues are public. Please don't include your name, email, or file paths that contain your username.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection
+      options:
+        - USB
+        - 2.4 GHz
+        - Bluetooth
+        - Not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostic info
+      description: On the Home page, press Copy diagnostic info and paste it here. It lists only what the keyboard reports about itself.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else?
+      description: Error messages, or a photo of the screen or keys if that helps. Check photos and screenshots for anything personal first.

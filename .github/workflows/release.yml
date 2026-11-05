@@ -1,0 +1,53 @@
+name: Release
+
+# Pushing a tag such as v0.1.0-alpha.1 tests the code, builds the EXEs and publishes a release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test
+        run: dotnet test -c Release
+
+      - name: Build
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          $common = @('-c', 'Release', '-r', 'win-x64', '-p:PublishSingleFile=true', '-p:DebugType=none', '-p:ContinuousIntegrationBuild=true', "-p:Version=$version")
+          dotnet publish src/OpenAK820 @common --self-contained true -p:EnableCompressionInSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o out/full
+          dotnet publish src/OpenAK820 @common --self-contained false -o out/small
+          dotnet publish src/ak820ctl @common --self-contained false -o out/cli
+          New-Item -ItemType Directory dist | Out-Null
+          Copy-Item out/full/OpenAK820.exe "dist/OpenAK820-$version-win-x64.exe"
+          Copy-Item out/small/OpenAK820.exe "dist/OpenAK820-$version-win-x64-needs-dotnet.exe"
+          Copy-Item out/cli/ak820ctl.exe "dist/ak820ctl-$version-win-x64-needs-dotnet.exe"
+
+      - name: Write release notes
+        shell: pwsh
+        run: |
+          $sums = Get-ChildItem dist -File | Sort-Object Name | ForEach-Object { "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $($_.Name)" }
+          $sums | Set-Content dist/SHA256SUMS.txt
+          $notes = (Get-Content .github/release-notes.md -Raw).Replace('{{REPO}}', "https://github.com/$env:GITHUB_REPOSITORY")
+          "$notes`n## Checksums (SHA-256)`n`n``````text`n$($sums -join "`n")`n```````n" | Set-Content release-notes.txt
+
+      - name: Publish
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $flags = @()
+          if ($env:GITHUB_REF_NAME -like '*-*') { $flags += '--prerelease' }
+          $files = (Get-ChildItem dist -File).FullName
+          gh release create $env:GITHUB_REF_NAME @files --verify-tag --title "OpenAK820 $env:GITHUB_REF_NAME" --notes-file release-notes.txt @flags

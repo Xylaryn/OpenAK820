@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OpenAK820.Cli</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);CA1416;WFAC010</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenAK820.Core\OpenAK820.Core.csproj" />
+    <Compile Include="..\OpenAK820\Services\GifCodec.cs" Link="GifCodec.cs" />
+  </ItemGroup>
+</Project>

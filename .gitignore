@@ -1,0 +1,19 @@
+bin/
+obj/
+out/
+dist/
+publish/
+TestResults/
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.pdb
+*.log
+
+# Vendor files must never be committed. See CONTRIBUTING.md.
+vendor/
+*.lan
+DeviceDriver.exe
+mui.dll
