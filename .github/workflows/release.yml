@@ -47,7 +47,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $flags = @()
-          if ($env:GITHUB_REF_NAME -like '*-*') { $flags += '--prerelease' }
+          # Always a full release, even for alphas. GitHub's sidebar and "latest" link skip pre-releases.
           $files = (Get-ChildItem dist -File).FullName
-          gh release create $env:GITHUB_REF_NAME @files --verify-tag --title "OpenAK820 $env:GITHUB_REF_NAME" --notes-file release-notes.txt @flags
+          gh release create $env:GITHUB_REF_NAME @files --verify-tag --latest --title "OpenAK820 $env:GITHUB_REF_NAME" --notes-file release-notes.txt
